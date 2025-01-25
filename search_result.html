@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #2d3a59;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+        }
+
+        main {
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .error-message {
+            color: red;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .transaction-info {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+
+        .transaction-info p {
+            font-size: 1.1rem;
+            color: #555;
+            margin: 10px 0;
+        }
+
+        .transaction-info strong {
+            color: #333;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 1rem;
+        }
+
+        footer a {
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        footer a:hover {
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Transaction Results</h1>
+    </header>
+
+    <main>
+        {% if message %}
+            <p class="error-message">{{ message }}</p>
+        {% else %}
+            <div class="transaction-info">
+                <p><strong>Transaction ID:</strong> {{ transaction.id }}</p>
+                <p><strong>User Account:</strong> {{ transaction.user }}</p>
+                <p><strong>Amount:</strong> {{ transaction.amount }}</p>
+                <p><strong>Status:</strong> {{ transaction.status }}</p>
+                <p><strong>Method:</strong> {{ transaction.method }}</p>
+                <p><strong>Admin Account:</strong> {{ transaction.admin_account }}</p>
+            </div>
+        {% endif %}
+    </main>
+
+    <footer>
+        <a href="/">Go Back to Home</a>
+    </footer>
+</body>
+</html>

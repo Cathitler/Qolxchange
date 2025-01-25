@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exchange SARIFO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 2rem;
+            animation: slideDown 0.5s ease-in-out;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #555;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 8px rgba(76, 175, 80, 0.4);
+        }
+
+        .form-group button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.2rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .form-group button:hover {
+            background-color: #45a049;
+            transform: scale(1.05);
+        }
+
+        .exchange-rate {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #4CAF50;
+            text-align: center;
+            margin-top: 10px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #001529;
+            color: white;
+            margin-top: 60px;
+        }
+    </style>
+    <script>
+        // Exchange rates based on 'Send From' currency selection
+        const exchangeRates = {
+            "USDT TRX": 95,
+            "Payeer USD": 95,
+            "EVC USD": 95
+        };
+
+        function updateExchangeRate() {
+            var sendFrom = document.getElementById("send_from").value;
+            var exchangeRateText = document.getElementById("exchange_rate_text");
+
+            if (exchangeRates[sendFrom]) {
+                exchangeRateText.textContent = `Exchange Rate: 1 ${sendFrom} = ${exchangeRates[sendFrom]} USD`;
+            } else {
+                exchangeRateText.textContent = "Exchange Rate: N/A";
+            }
+        }
+
+        function updateAccountField() {
+            var sendTo = document.getElementById("send_to").value;
+            var accountInfoField = document.getElementById("account_info_field");
+            var label = document.getElementById("account_info_label");
+
+            if (sendTo === "USDT TRX") {
+                label.textContent = "Enter your USDT TRX Address";
+                accountInfoField.placeholder = "USDT TRX Address";
+            } else if (sendTo === "Payeer USD") {
+                label.textContent = "Enter your Payeer USD Account Info";
+                accountInfoField.placeholder = "Payeer USD Account Info";
+            } else if (sendTo === "EVC USD") {
+                label.textContent = "Enter your EVC USD Account Info";
+                accountInfoField.placeholder = "EVC USD Account Info";
+            }
+        }
+
+        window.onload = function() {
+            updateAccountField();
+            updateExchangeRate();
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Exchange Now</h1>
+        <form method="POST" action="{{ url_for('exchange') }}">
+            <div class="form-group">
+                <label for="send_from">Send From</label>
+                <select id="send_from" name="send_from" required onchange="updateExchangeRate()">
+                    <option value="USDT TRX">USDT TRX</option>
+                    <option value="Payeer USD">Payeer USD</option>
+                    <option value="EVC USD">EVC USD</option>
+                </select>
+            </div>
+            <div class="exchange-rate" id="exchange_rate_text">Exchange Rate: 1 USDT TRX = 95 USD</div>
+            <div class="form-group">
+                <label for="send_to">Send To</label>
+                <select id="send_to" name="send_to" required onchange="updateAccountField()">
+                    <option value="USDT TRX">USDT TRX</option>
+                    <option value="Payeer USD">Payeer USD</option>
+                    <option value="EVC USD">EVC USD</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="amount">Amount</label>
+                <input type="number" id="amount" name="amount" required placeholder="Enter Amount" min="1">
+                
+            </div>
+            <div class="form-group">
+                <label id="account_info_label" for="user_account">Account Info</label>
+                <input type="text" id="account_info_field" name="user_account" required placeholder="Account Info">
+            </div>
+            <div class="form-group">
+                <button type="submit">Proceed with Exchange</button>
+            </div>
+        </form>
+    </div>
+    
+    <footer>
+        <p>&copy; 2025 Labax Exchange. All rights reserved.</p>
+    </footer>
+</body>
+</html>

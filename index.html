@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hadalabax Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="header">
+        <div class="container">
+            <div class="header-left">
+                <h1 class="header-title">Qol ♨️
+                Xchange</h1>
+            </div>
+            <div class="header-right">
+                <p class="status">Operator Status: 
+    <status class="{{ 'status-online' if operator_status == 'online' else 'status-offline' }}">
+        {{ operator_status.capitalize() }}
+    </status>
+</p>
+                <p class="hours">Operating Hours: 9:00 AM - 8:00 PM</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Seamless & Secure Transactions</h2>
+            <p>Exchange currencies and manage transactions effortlessly.</p>
+            <div class="hero-buttons">
+                <a href="/exchange" class="button primary">SARIFO Exchange</a>
+                <a href="/search" class="button secondary">Search Transactions</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Transactions Section -->
+    <main class="main-content">
+        <div class="container">
+            <section class="transactions">
+                <h2>Recent Transactions</h2>
+                <div class="table-responsive">
+                    <table class="transactions-table">
+                        <thead>
+                            <tr>
+                                <th>Transaction ID</th>
+                                <th>Status</th>
+                                <th>Amount</th>
+                                <th>Method</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+    {% if transactions %}
+        {% for transaction in transactions %}
+            <tr>
+                <td>{{ transaction.id }}</td>
+                <td>{{ transaction.status }}</td>
+                <td>{{ transaction.amount }}</td>
+                <td>{{ transaction.method }}</td> <!-- Correctly display the method (pairs used) -->
+            </tr>
+        {% endfor %}
+    {% else %}
+        <tr>
+            <td colspan="4" class="no-data">No transactions available</td>
+        </tr>
+    {% endif %}
+</tbody>
+
+                    </table>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Labax Exchange. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
